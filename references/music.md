@@ -5,13 +5,13 @@
 Set them in `storycut.config.json`:
 
 ```json
-"intro": { "music": "assets/music/intro/intro.mp3", "volume": 0.9, "fadeIn": 0, "fadeOut": 1.0, "maxSeconds": 12, "narrationOverlap": 0.3 },
-"outro": { "music": "assets/music/outro/outro.mp3", "volume": 0.9, "fadeIn": 0.6, "fadeOut": 2.0, "maxSeconds": 20 }
+"intro": { "music": "assets/music/intro/intro.mp3", "start": 0, "maxSeconds": 12, "volume": 0.9, "fadeIn": 0, "fadeOut": 1.0, "narrationOverlap": 0.3 },
+"outro": { "music": "assets/music/outro/outro.mp3", "start": "end", "maxSeconds": 20, "volume": 0.9, "fadeIn": 0.6, "fadeOut": 2.0 }
 ```
 
 - To replace a song, drop in a new file and point `music` at it. Every build picks it up, and the visuals re-sync to the new song's beats automatically.
 - The intro plays from 0. Narration starts `narrationOverlap` seconds before it ends. The outro starts after the last spoken word. Both are separate audio tracks from the narration.
-- Songs longer than `maxSeconds` are trimmed with a fade-out. With no file set, a silent intro/outro of `seconds` length is used and QC warns about it.
+- Full-length songs are fine: `start` picks the excerpt (seconds into the song), and `maxSeconds` sets its length. `"start": "end"` uses the song's last `maxSeconds`, so the video ends on the song's real ending (the default for the outro). Beats are detected on the excerpt itself. Excerpts are trimmed with the configured fades. With no file set, a silent intro/outro of `seconds` length is used and QC warns about it.
 - Beat sync: `SC music beats <file>` shows the tempo and beat grid used for the tile hits and wordmark slam.
 
 ## Background beds: how a track is chosen

@@ -1,28 +1,97 @@
 {
   "id": "minimal-editorial",
   "name": "Minimalist editorial",
-  "fonts": { "display": "Playfair Display", "body": "Inter", "mono": "IBM Plex Mono" },
+  "fonts": {
+    "display": "Playfair Display",
+    "body": "Inter",
+    "mono": "IBM Plex Mono",
+    "displayWeight": 700
+  },
   "colors": {
-    "bg": "#F7F4EE", "ink": "#1B1A18", "paper": "#FFFFFF", "muted": "#8A847A",
-    "accent": "#B4461F", "accent2": "#2F5D50", "accent3": "#3B4A8C", "accent4": "#9A7B2F", "caveat": "#B4461F"
+    "bg": "#F7F4EE",
+    "ink": "#1B1A18",
+    "paper": "#FFFFFF",
+    "muted": "#8A847A",
+    "accent": "#B4461F",
+    "accent2": "#2F5D50",
+    "accent3": "#3B4A8C",
+    "accent4": "#9A7B2F",
+    "caveat": "#B4461F"
   },
-  "shape": { "radius": 0, "border": 1, "shadowX": 0, "shadowY": 0, "shadowBlur": 0, "shadow": "none" },
-  "background": { "kind": "plain", "size": 0, "opacity": 0 },
-  "texture": { "kind": "paper" },
+  "shape": {
+    "radius": 0,
+    "border": 1,
+    "shadowX": 0,
+    "shadowY": 0,
+    "shadowBlur": 0,
+    "shadow": "none"
+  },
+  "background": {
+    "kind": "plain",
+    "size": 0,
+    "opacity": 0
+  },
+  "texture": {
+    "kind": "paper"
+  },
   "letterbox": 0,
-  "motion": { "enter": "fade-rise", "ease": "power2.out", "duration": 0.9, "stagger": 0.08, "exit": "fade" },
-  "transition": { "kind": "crossfade", "duration": 0.8 },
-  "titleCard": { "layout": "editorial", "numbered": true, "kickerCase": "upper", "titleCase": "none", "tilt": 0 },
-  "lowerThird": { "layout": "dek", "kickerCase": "upper" },
-  "captions": {
-    "font": "body", "size": 46, "case": "none", "color": "ink", "activeColor": "accent", "activeBg": "none",
-    "box": "none", "boxBorder": false, "shadow": "none", "position": "bottom", "offset": 90, "animation": "fade", "wordsPerGroup": 5
+  "motion": {
+    "enter": "fade-rise",
+    "ease": "power2.out",
+    "duration": 0.9,
+    "stagger": 0.08,
+    "exit": "fade"
   },
-  "emoji": { "size": 96, "animation": "fade" },
-  "sponsorFrame": { "kind": "rule", "color": "accent" },
+  "transition": {
+    "kind": "crossfade",
+    "duration": 0.8
+  },
+  "titleCard": {
+    "layout": "editorial",
+    "numbered": true,
+    "kickerCase": "upper",
+    "titleCase": "none",
+    "tilt": 0
+  },
+  "lowerThird": {
+    "layout": "dek",
+    "kickerCase": "upper"
+  },
+  "captions": {
+    "font": "body",
+    "size": 46,
+    "case": "none",
+    "color": "ink",
+    "activeColor": "accent",
+    "activeBg": "none",
+    "box": "none",
+    "boxBorder": false,
+    "shadow": "none",
+    "position": "bottom",
+    "offset": 90,
+    "animation": "fade",
+    "wordsPerGroup": 5
+  },
+  "emoji": {
+    "size": 96,
+    "animation": "fade"
+  },
+  "sponsorFrame": {
+    "kind": "rule",
+    "color": "accent"
+  },
   "segmentColors": {
-    "hook": "accent", "intro": "accent", "main-tech": "accent3", "ai": "accent2", "business": "accent4",
-    "events": "accent3", "upcoming-events": "accent2", "fun-facts": "accent", "discoveries": "accent2",
-    "quick-updates": "accent3", "sponsor": "accent", "outro": "accent"
+    "hook": "accent",
+    "intro": "accent",
+    "main-tech": "accent3",
+    "ai": "accent2",
+    "business": "accent4",
+    "events": "accent3",
+    "upcoming-events": "accent2",
+    "fun-facts": "accent",
+    "discoveries": "accent2",
+    "quick-updates": "accent3",
+    "sponsor": "accent",
+    "outro": "accent"
   }
 }

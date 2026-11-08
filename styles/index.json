@@ -1,9 +1,34 @@
 {
   "styles": [
-    { "id": "neo-brutalism", "name": "Neo-brutalism", "summary": "Paper ground, thick ink borders, hard offset shadows, flat loud colour blocks, slam-in type." },
-    { "id": "tech-documentary", "name": "Modern tech documentary", "summary": "Dark slate, precise grid, mono data labels, mask reveals, restrained accent colour." },
-    { "id": "minimal-editorial", "name": "Minimalist editorial", "summary": "Warm off-white, serif headlines, hairline rules, slow fades, magazine-style deks." },
-    { "id": "social-fast", "name": "Fast-paced social", "summary": "High-contrast black, neon accents, 2-word punch captions, zoom punches, emoji bursts." },
-    { "id": "cinematic-documentary", "name": "Cinematic documentary", "summary": "Letterboxed, film grain, condensed titles, amber accents, long dissolves." }
+    {
+      "id": "neo-brutalism",
+      "name": "Neo-brutalism",
+      "summary": "Paper ground, thick ink borders, hard offset shadows, flat loud colour blocks, slam-in type."
+    },
+    {
+      "id": "memphis-pop",
+      "name": "Memphis pop (retro neo-brutalism)",
+      "summary": "Grid paper, Memphis shapes (squiggles, zigzags, confetti, checkers, sparkles), keycap tiles with extruded shadows, browser-window title cards, outlined extruded headlines, pink/teal/yellow/purple/blue."
+    },
+    {
+      "id": "tech-documentary",
+      "name": "Modern tech documentary",
+      "summary": "Dark slate, precise grid, mono data labels, mask reveals, restrained accent colour."
+    },
+    {
+      "id": "minimal-editorial",
+      "name": "Minimalist editorial",
+      "summary": "Warm off-white, serif headlines, hairline rules, slow fades, magazine-style deks."
+    },
+    {
+      "id": "social-fast",
+      "name": "Fast-paced social",
+      "summary": "High-contrast black, neon accents, 2-word punch captions, zoom punches, emoji bursts."
+    },
+    {
+      "id": "cinematic-documentary",
+      "name": "Cinematic documentary",
+      "summary": "Letterboxed, film grain, condensed titles, amber accents, long dissolves."
+    }
   ]
 }

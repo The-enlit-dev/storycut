@@ -1,0 +1,29 @@
+{
+  "id": "memphis-pop",
+  "name": "Memphis pop (retro neo-brutalism)",
+  "fonts": { "display": "Outfit", "body": "Outfit", "mono": "Space Mono", "displayWeight": 900 },
+  "colors": {
+    "bg": "#F6F3EC", "ink": "#121212", "paper": "#FFFFFF", "muted": "#5A5650",
+    "accent": "#FFD23F", "accent2": "#FF4FA3", "accent3": "#17C3B2", "accent4": "#7B61FF", "accent5": "#2F6BFF", "caveat": "#FF5A36"
+  },
+  "shape": { "radius": 18, "border": 5, "shadowX": 0, "shadowY": 11, "shadowBlur": 0, "shadow": "ink" },
+  "background": { "kind": "grid", "size": 72, "opacity": 0.13 },
+  "texture": { "kind": "none" },
+  "decor": { "kind": "memphis", "density": 5, "size": 130, "stroke": 5 },
+  "type": { "extrude": 7, "outline": 4, "fill": "paper" },
+  "letterbox": 0,
+  "motion": { "enter": "pop", "ease": "back.out(2.2)", "duration": 0.3, "stagger": 0.05, "exit": "drop" },
+  "transition": { "kind": "block-wipe", "duration": 0.5, "bands": 4 },
+  "titleCard": { "layout": "window", "numbered": false, "kickerCase": "upper", "titleCase": "none", "tilt": -2 },
+  "lowerThird": { "layout": "tag", "kickerCase": "upper" },
+  "captions": {
+    "font": "display", "size": 60, "weight": 900, "case": "none", "color": "ink", "activeColor": "ink", "activeBg": "accent2",
+    "box": "paper", "boxBorder": true, "shadow": "hard", "position": "bottom", "offset": 84, "animation": "pop", "wordsPerGroup": 3
+  },
+  "emoji": { "size": 150, "animation": "stamp" },
+  "sponsorFrame": { "kind": "tape", "color": "accent2" },
+  "segmentColors": {
+    "hook": "accent2", "intro": "accent", "main-tech": "accent5", "ai": "accent3", "business": "accent", "events": "accent4",
+    "upcoming-events": "accent3", "fun-facts": "accent", "discoveries": "accent4", "quick-updates": "accent2", "sponsor": "accent2", "outro": "accent"
+  }
+}

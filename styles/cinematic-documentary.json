@@ -1,28 +1,98 @@
 {
   "id": "cinematic-documentary",
   "name": "Cinematic documentary",
-  "fonts": { "display": "League Gothic", "body": "Lato", "mono": "IBM Plex Mono" },
+  "fonts": {
+    "display": "League Gothic",
+    "body": "Lato",
+    "mono": "IBM Plex Mono",
+    "displayWeight": 400
+  },
   "colors": {
-    "bg": "#0E0D0B", "ink": "#EEE7D7", "paper": "#1A1814", "muted": "#8C8577",
-    "accent": "#D9A441", "accent2": "#8FB3A7", "accent3": "#C76B4A", "accent4": "#A99BD1", "caveat": "#D9A441"
+    "bg": "#0E0D0B",
+    "ink": "#EEE7D7",
+    "paper": "#1A1814",
+    "muted": "#8C8577",
+    "accent": "#D9A441",
+    "accent2": "#8FB3A7",
+    "accent3": "#C76B4A",
+    "accent4": "#A99BD1",
+    "caveat": "#D9A441"
   },
-  "shape": { "radius": 0, "border": 0, "shadowX": 0, "shadowY": 0, "shadowBlur": 0, "shadow": "none" },
-  "background": { "kind": "vignette", "size": 0, "opacity": 0.55 },
-  "texture": { "kind": "grain", "opacity": 0.07 },
+  "shape": {
+    "radius": 0,
+    "border": 0,
+    "shadowX": 0,
+    "shadowY": 0,
+    "shadowBlur": 0,
+    "shadow": "none"
+  },
+  "background": {
+    "kind": "vignette",
+    "size": 0,
+    "opacity": 0.55
+  },
+  "texture": {
+    "kind": "grain",
+    "opacity": 0.07
+  },
   "letterbox": 0.1,
-  "motion": { "enter": "slow-fade", "ease": "sine.out", "duration": 1.2, "stagger": 0.12, "exit": "fade" },
-  "transition": { "kind": "dip-to-black", "duration": 1.0 },
-  "titleCard": { "layout": "cinematic", "numbered": true, "kickerCase": "upper", "titleCase": "upper", "tilt": 0 },
-  "lowerThird": { "layout": "caption-line", "kickerCase": "upper" },
-  "captions": {
-    "font": "body", "size": 44, "case": "none", "color": "ink", "activeColor": "ink", "activeBg": "none",
-    "box": "none", "boxBorder": false, "shadow": "soft", "position": "bottom", "offset": 150, "animation": "fade", "wordsPerGroup": 6
+  "motion": {
+    "enter": "slow-fade",
+    "ease": "sine.out",
+    "duration": 1.2,
+    "stagger": 0.12,
+    "exit": "fade"
   },
-  "emoji": { "size": 90, "animation": "fade" },
-  "sponsorFrame": { "kind": "rule", "color": "accent" },
+  "transition": {
+    "kind": "dip-to-black",
+    "duration": 1.0
+  },
+  "titleCard": {
+    "layout": "cinematic",
+    "numbered": true,
+    "kickerCase": "upper",
+    "titleCase": "upper",
+    "tilt": 0
+  },
+  "lowerThird": {
+    "layout": "caption-line",
+    "kickerCase": "upper"
+  },
+  "captions": {
+    "font": "body",
+    "size": 44,
+    "case": "none",
+    "color": "ink",
+    "activeColor": "ink",
+    "activeBg": "none",
+    "box": "none",
+    "boxBorder": false,
+    "shadow": "soft",
+    "position": "bottom",
+    "offset": 150,
+    "animation": "fade",
+    "wordsPerGroup": 6
+  },
+  "emoji": {
+    "size": 90,
+    "animation": "fade"
+  },
+  "sponsorFrame": {
+    "kind": "rule",
+    "color": "accent"
+  },
   "segmentColors": {
-    "hook": "accent3", "intro": "accent", "main-tech": "accent", "ai": "accent2", "business": "accent",
-    "events": "accent2", "upcoming-events": "accent4", "fun-facts": "accent", "discoveries": "accent2",
-    "quick-updates": "accent3", "sponsor": "accent", "outro": "accent"
+    "hook": "accent3",
+    "intro": "accent",
+    "main-tech": "accent",
+    "ai": "accent2",
+    "business": "accent",
+    "events": "accent2",
+    "upcoming-events": "accent4",
+    "fun-facts": "accent",
+    "discoveries": "accent2",
+    "quick-updates": "accent3",
+    "sponsor": "accent",
+    "outro": "accent"
   }
 }

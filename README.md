@@ -85,13 +85,13 @@ Try it on the bundled sample script: `examples/sample/script.md`.
 
 | Feature | Notes |
 |---|---|
-| Config + 5 editing styles | `neo-brutalism`, `tech-documentary`, `minimal-editorial`, `social-fast`, `cinematic-documentary`; all 5 build and pass `hyperframes check` on the sample |
+| Config + 6 editing styles | `neo-brutalism`, `memphis-pop`, `tech-documentary`, `minimal-editorial`, `social-fast`, `cinematic-documentary`; all build and pass `hyperframes check` on the sample |
 | Transcription with confidence | whisper.cpp with DTW token timing; imports `.json`/`.srt`/`.vtt` |
 | Recording ↔ script reconciliation | ad-libs, changed and omitted lines, spelling differences; `script.as-recorded.md` (original kept) |
 | Ask, don't guess | 3 detectors: low-confidence/conflicting words, a second listen for "missing" lines, speech-level audio with no words. Each gives a timestamp + audio clip; `resolve` re-syncs everything |
 | Caption management | CLI add/edit/delete/retime/shift/split/merge/replace/style/validate/export; browser editor with live styled preview; edits survive rebuilds; corrections flow into transcript + script |
 | Segmentation | 12 segment types, transitions + numbered title cards + per-segment colour, stage headlines from sub-stories |
-| Intro/outro templates | generated from config + style on each build, synced to the detected beats of your songs, separate audio tracks with fades |
+| Intro/outro templates | generated from config + style on each build, synced to the detected beats of your songs, separate audio tracks with fades; full-length songs supported via `start`/`maxSeconds` excerpts (`"end"` = the song's real ending) |
 | Background music | content/audio analysis → mood blocks; CC0/PDM-only search with the licence confirmed on the provider page; ledger + evidence; loop/crossfade beds; speech ducking via volume automation |
 | Narration loudness | two-pass EBU R128 normalisation with a true-peak limit (original untouched) |
 | Sponsor | config template, website fact check, script insertion at a placement, distinct frame/badge/card, QC presence/length |
