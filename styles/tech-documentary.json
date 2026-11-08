@@ -1,0 +1,28 @@
+{
+  "id": "tech-documentary",
+  "name": "Modern tech documentary",
+  "fonts": { "display": "Inter", "body": "Inter", "mono": "JetBrains Mono" },
+  "colors": {
+    "bg": "#0C111B", "ink": "#E9EDF5", "paper": "#141B29", "muted": "#7D8799",
+    "accent": "#6E9BFF", "accent2": "#2FD3B4", "accent3": "#F2B84B", "accent4": "#FF7A6B", "caveat": "#F2B84B"
+  },
+  "shape": { "radius": 4, "border": 1, "shadowX": 0, "shadowY": 18, "shadowBlur": 40, "shadow": "rgba(0,0,0,0.45)" },
+  "background": { "kind": "grid", "size": 96, "opacity": 0.07 },
+  "texture": { "kind": "none" },
+  "letterbox": 0,
+  "motion": { "enter": "mask-up", "ease": "expo.out", "duration": 0.6, "stagger": 0.05, "exit": "fade" },
+  "transition": { "kind": "line-sweep", "duration": 0.6 },
+  "titleCard": { "layout": "rule-kicker", "numbered": true, "kickerCase": "upper", "titleCase": "none", "tilt": 0 },
+  "lowerThird": { "layout": "data-label", "kickerCase": "upper" },
+  "captions": {
+    "font": "display", "size": 54, "case": "none", "color": "ink", "activeColor": "accent", "activeBg": "none",
+    "box": "none", "boxBorder": false, "shadow": "soft", "position": "bottom", "offset": 96, "animation": "highlight", "wordsPerGroup": 4
+  },
+  "emoji": { "size": 120, "animation": "float" },
+  "sponsorFrame": { "kind": "outline", "color": "accent2" },
+  "segmentColors": {
+    "hook": "accent4", "intro": "accent", "main-tech": "accent", "ai": "accent2", "business": "accent3",
+    "events": "accent", "upcoming-events": "accent2", "fun-facts": "accent3", "discoveries": "accent2",
+    "quick-updates": "accent4", "sponsor": "accent2", "outro": "accent"
+  }
+}

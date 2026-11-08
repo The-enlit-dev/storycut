@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+# never commit a real channel config or media into the public engine
+storycut.config.json
+*.wav
+*.mp3
+*.mp4
+*.mov
+build/
+renders/
+work/
+.hyperframes/

@@ -1,0 +1,11 @@
+{
+  "name": "storycut",
+  "version": "0.1.0",
+  "description": "Script-driven video editing on HyperFrames: transcribe what was actually said, ask about unclear audio, editable captions, segment title cards, branded intro/outro synced to your songs, licence-verified CC0 music with ducking, fact-checked sponsor segment, five editing styles, final QC.",
+  "entry": "SKILL.md",
+  "cli": "bin/storycut.mjs",
+  "keywords": ["claude-code", "skill", "video-editing", "hyperframes", "captions", "subtitles", "youtube", "voiceover", "podcast", "whisper", "ffmpeg", "cc0-music", "motion-graphics", "content-creation"],
+  "requires": { "node": ">=22", "ffmpeg": "*", "hyperframes": "0.9.23 (fetched with npx)" },
+  "license": "MIT",
+  "repository": "https://github.com/The-enlit-dev/storycut"
+}

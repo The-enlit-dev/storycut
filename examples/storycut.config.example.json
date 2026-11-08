@@ -1,0 +1,74 @@
+{
+  "channel": {
+    "name": "My Channel",
+    "series": "The Weekly Review",
+    "tagline": "Tech, explained with jokes.",
+    "handle": "@mychannel",
+    "language": "en"
+  },
+  "branding": {
+    "logo": null,
+    "colors": {},
+    "fonts": {},
+    "watermark": true
+  },
+  "style": "tech-documentary",
+  "format": { "width": 1920, "height": 1080, "fps": 30 },
+  "narration": { "targetLufs": -16, "maxGainDb": 12 },
+  "intro": {
+    "enabled": true,
+    "music": "assets/music/intro/intro.mp3",
+    "volume": 0.9,
+    "fadeIn": 0,
+    "fadeOut": 1.0,
+    "maxSeconds": 12,
+    "seconds": 5,
+    "narrationOverlap": 0.3,
+    "topics": ["Technology", "Innovation", "Curiosity", "Business", "Science", "The Future"]
+  },
+  "outro": {
+    "enabled": true,
+    "music": "assets/music/outro/outro.mp3",
+    "volume": 0.9,
+    "fadeIn": 0.6,
+    "fadeOut": 2.0,
+    "maxSeconds": 20,
+    "seconds": 8,
+    "lines": ["Thanks for watching", "New episode every week"]
+  },
+  "music": {
+    "beds": true,
+    "licenses": ["cc0", "pdm"],
+    "allowVocals": false,
+    "underSpeechDb": -20,
+    "gapLiftDb": 5,
+    "gapLiftAfter": 1.4,
+    "crossfade": 1.5,
+    "minBlockSeconds": 40,
+    "library": "assets/music/library"
+  },
+  "captions": {
+    "enabled": true,
+    "wordsPerGroup": 3,
+    "maxCharsPerLine": 32,
+    "maxCharsPerSecond": 20,
+    "minDuration": 0.6,
+    "style": {}
+  },
+  "segments": { "titleCards": true, "cardSeconds": 2.2 },
+  "sponsor": {
+    "enabled": false,
+    "name": "Your Product",
+    "url": "https://example.com",
+    "label": "SPONSOR",
+    "disclosure": "",
+    "placement": "middle",
+    "maxSeconds": 40,
+    "script": "",
+    "facts": [
+      { "claim": "What the product does", "evidence": "exact sentence copied from the product's website" }
+    ],
+    "cta": ""
+  },
+  "transcription": { "engine": "auto", "model": "small.en", "language": "en", "uncertainBelow": 0.5 }
+}

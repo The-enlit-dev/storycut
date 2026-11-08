@@ -1,0 +1,28 @@
+{
+  "id": "neo-brutalism",
+  "name": "Neo-brutalism",
+  "fonts": { "display": "Archivo Black", "body": "Space Mono", "mono": "Space Mono" },
+  "colors": {
+    "bg": "#F2EEE3", "ink": "#111111", "paper": "#FFFFFF", "muted": "#5E5A52",
+    "accent": "#FFD23F", "accent2": "#FF5C8A", "accent3": "#3EC6E0", "accent4": "#A6E22E", "caveat": "#FF8A00"
+  },
+  "shape": { "radius": 0, "border": 6, "shadowX": 12, "shadowY": 12, "shadowBlur": 0, "shadow": "ink" },
+  "background": { "kind": "dots", "size": 30, "opacity": 0.16 },
+  "texture": { "kind": "none" },
+  "letterbox": 0,
+  "motion": { "enter": "slam", "ease": "power4.out", "duration": 0.32, "stagger": 0.06, "exit": "drop" },
+  "transition": { "kind": "block-wipe", "duration": 0.5, "bands": 3 },
+  "titleCard": { "layout": "stacked-blocks", "numbered": true, "kickerCase": "upper", "titleCase": "upper", "tilt": -2 },
+  "lowerThird": { "layout": "tag", "kickerCase": "upper" },
+  "captions": {
+    "font": "display", "size": 62, "case": "upper", "color": "ink", "activeColor": "ink", "activeBg": "accent",
+    "box": "paper", "boxBorder": true, "shadow": "hard", "position": "bottom", "offset": 84, "animation": "pop", "wordsPerGroup": 3
+  },
+  "emoji": { "size": 150, "animation": "stamp" },
+  "sponsorFrame": { "kind": "tape", "color": "accent2" },
+  "segmentColors": {
+    "hook": "accent2", "intro": "accent", "main-tech": "accent", "ai": "accent3", "business": "accent4",
+    "events": "accent2", "upcoming-events": "accent3", "fun-facts": "accent4", "discoveries": "accent3",
+    "quick-updates": "accent", "sponsor": "accent2", "outro": "accent"
+  }
+}

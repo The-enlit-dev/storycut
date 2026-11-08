@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Caption Editor — storycut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@700;900&family=Poppins:wght@400;700;900&family=League+Gothic&family=Lato:wght@400;700;900&family=IBM+Plex+Mono:wght@400;700&family=EB+Garamond:wght@400;700&family=Oswald:wght@400;700&family=Roboto:wght@400;700;900&family=Open+Sans:wght@400;700&family=Nunito:wght@400;900&family=Outfit:wght@400;900&family=Source+Code+Pro:wght@400;700&display=swap" />
+<style>
+  :root { --bg: #f4f2ee; --panel: #ffffff; --ink: #17161a; --muted: #6d6a73; --line: #dedad3; --accent: #2457ff; --warn: #b45309; --err: #b91c1c; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #131316; --panel: #1c1c21; --ink: #ececf1; --muted: #9a98a3; --line: #2e2e36; --accent: #7c9cff; --warn: #f59e0b; --err: #f87171; } }
+  :root[data-theme="dark"] { --bg: #131316; --panel: #1c1c21; --ink: #ececf1; --muted: #9a98a3; --line: #2e2e36; --accent: #7c9cff; --warn: #f59e0b; --err: #f87171; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.4 system-ui, -apple-system, Segoe UI, sans-serif; }
+  header { display: flex; gap: 12px; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 5; flex-wrap: wrap; }
+  header h1 { font-size: 15px; margin: 0 12px 0 0; }
+  button, select, input { font: inherit; color: inherit; }
+  button { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  button:hover { border-color: var(--accent); }
+  .status { color: var(--muted); margin-left: auto; }
+  main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(360px, 1fr); gap: 16px; padding: 16px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .stage { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; border: 1px solid var(--line); }
+  .stage video, .stage .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .canvas { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; pointer-events: none; }
+  .transport { display: flex; gap: 8px; align-items: center; margin: 10px 0; flex-wrap: wrap; }
+  .transport .t { font-variant-numeric: tabular-nums; min-width: 90px; }
+  .strip { position: relative; height: 64px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; overflow-y: hidden; }
+  .strip-inner { position: relative; height: 100%; }
+  .blk { position: absolute; top: 8px; height: 48px; background: color-mix(in srgb, var(--accent) 18%, transparent); border: 1px solid var(--accent); border-radius: 4px; font-size: 11px; padding: 2px 4px; overflow: hidden; white-space: nowrap; cursor: pointer; }
+  .blk.sel { background: color-mix(in srgb, var(--accent) 45%, transparent); }
+  .blk.manual { border-style: dashed; }
+  .head { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--err); pointer-events: none; }
+  .list { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; max-height: calc(100vh - 140px); overflow: auto; }
+  .row { display: grid; grid-template-columns: 54px 92px 92px 1fr auto; gap: 6px; align-items: center; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  .row.sel { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .row input[type=number] { width: 100%; padding: 3px 4px; border: 1px solid var(--line); border-radius: 4px; background: transparent; }
+  .row input[type=text] { width: 100%; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; background: transparent; }
+  .row .id { font-size: 11px; color: var(--muted); }
+  .row .acts button { padding: 2px 6px; font-size: 12px; }
+  .issue { font-size: 11px; color: var(--warn); grid-column: 2 / -1; }
+  .issue.error { color: var(--err); }
+  .side h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 6px; }
+  .grid2 { display: grid; grid-template-columns: 120px 1fr; gap: 6px 10px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+  .grid2 input, .grid2 select { width: 100%; padding: 3px 6px; border: 1px solid var(--line); border-radius: 4px; background: transparent; }
+  .lowconf { color: var(--warn); text-decoration: underline dotted; }
+  .words { font-size: 12px; color: var(--muted); max-height: 90px; overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px; margin-top: 8px; }
+  .kbd { font-size: 11px; color: var(--muted); }
+</style>
+<style id="capcss"></style>
+</head>
+<body>
+<header>
+  <h1>Caption editor · <span id="pname"></span></h1>
+  <button id="add" title="Add a caption at the playhead (A)">+ Add at playhead</button>
+  <input id="find" placeholder="find" size="10" /><input id="repl" placeholder="replace with" size="10" /><button id="doRepl">Replace all</button>
+  <button id="undo" title="Undo last change (Ctrl/Cmd+Z)">Undo</button>
+  <button id="save" class="primary" title="Save to captions.json (Ctrl/Cmd+S)">Save</button>
+  <span class="status" id="status">loading…</span>
+</header>
+<main>
+  <section>
+    <div class="stage" id="stage"><div class="ground" id="ground"></div><video id="media" playsinline preload="auto"></video><div class="canvas" id="canvas"></div></div>
+    <div class="transport">
+      <button id="play">▶ Play</button><button id="back">−2s</button><button id="fwd">+2s</button>
+      <span class="t" id="time">00:00.00</span>
+      <label><input type="checkbox" id="loop" /> loop selected</label>
+      <span class="kbd">Space play · [ / ] set start/end of selected · Del delete · ↑/↓ select</span>
+    </div>
+    <div class="strip" id="strip"><div class="strip-inner" id="stripInner"><div class="head" id="head"></div></div></div>
+    <div class="words" id="words" title="Transcript around the playhead; dotted words were low-confidence"></div>
+    <div class="side">
+      <h2>Caption style (this video)</h2>
+      <div class="grid2" id="styleForm"></div>
+    </div>
+  </section>
+  <section class="list" id="list"></section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let S = null, doc = null, sel = null, dirty = false, history = [];
+const media = $("media"), PX = 80;
+const fmt = (t) => { const m = Math.floor(t / 60), s = t - m * 60; return String(m).padStart(2, "0") + ":" + s.toFixed(2).padStart(5, "0"); };
+const r3 = (v) => Math.round(v * 1000) / 1000;
+const snapshot = () => { history.push(JSON.stringify(doc)); if (history.length > 100) history.shift(); };
+function mark() { dirty = true; $("status").textContent = "unsaved changes"; renderAll(); }
+
+async function load() {
+  S = await (await fetch("/api/state")).json();
+  doc = S.captions;
+  $("pname").textContent = S.project;
+  media.src = "/media";
+  if (!S.isVideo) { media.style.opacity = 0; media.style.height = "1px"; }
+  $("ground").style.background = S.ground;
+  buildStyleForm();
+  await refreshCss();
+  renderAll();
+  $("status").textContent = `${doc.captions.length} captions · saved`;
+}
+function scaleCanvas() { const w = $("stage").clientWidth; $("canvas").style.transform = `scale(${w / 1920})`; }
+addEventListener("resize", scaleCanvas);
+
+async function refreshCss() {
+  const css = await (await fetch("/api/css", { method: "POST", body: JSON.stringify(doc.style || {}) })).text();
+  $("capcss").textContent = css;
+}
+
+function buildStyleForm() {
+  const eff = { ...S.effectiveStyle };
+  const f = $("styleForm");
+  f.innerHTML = "";
+  const colorOpts = ["", ...Object.keys(S.colors)];
+  const fields = [
+    ["font", "select", ["display", "body", "mono", ...S.fonts]], ["size", "number"], ["weight", "number"], ["case", "select", ["none", "upper"]],
+    ["color", "color"], ["activeColor", "color"], ["activeBg", "color", true], ["box", "color", true], ["boxBorder", "select", ["true", "false"]],
+    ["shadow", "select", ["none", "soft", "hard", "stroke"]], ["position", "select", ["bottom", "center-low", "center", "top"]], ["offset", "number"],
+    ["animation", "select", ["pop", "fade", "highlight", "karaoke", "none"]], ["maxWidth", "number"], ["letterSpacing", "text"],
+  ];
+  for (const [k, kind, opts] of fields) {
+    const lab = document.createElement("label"); lab.textContent = k; f.appendChild(lab);
+    let inp;
+    if (kind === "select") { inp = document.createElement("select"); for (const o of opts) inp.add(new Option(o, o)); inp.value = String(eff[k] ?? opts[0]); }
+    else if (kind === "color") {
+      inp = document.createElement("select");
+      const vals = [...(opts ? ["none"] : []), ...colorOpts.filter(Boolean)];
+      for (const o of vals) inp.add(new Option(o + (S.colors[o] ? " " + S.colors[o] : ""), o));
+      inp.add(new Option("custom #hex…", "__custom"));
+      inp.value = vals.includes(eff[k]) ? eff[k] : "__custom";
+      if (inp.value === "__custom") inp.dataset.custom = eff[k] || "";
+    } else { inp = document.createElement("input"); inp.type = kind; inp.value = eff[k] ?? ""; }
+    inp.onchange = async () => {
+      snapshot();
+      let v = inp.value;
+      if (v === "__custom") { v = prompt("Colour (#rrggbb)", inp.dataset.custom || "#ffffff"); if (!v) return; }
+      if (kind === "number") v = Number(v);
+      if (v === "true") v = true; if (v === "false") v = false;
+      doc.style = { ...(doc.style || {}), [k]: v };
+      await refreshCss(); mark();
+    };
+    f.appendChild(inp);
+  }
+  const reset = document.createElement("button"); reset.textContent = "Reset to style defaults";
+  reset.onclick = async () => { snapshot(); doc.style = {}; S.effectiveStyle = { ...S.effectiveStyle }; await refreshCss(); buildStyleForm(); mark(); };
+  f.appendChild(document.createElement("span")); f.appendChild(reset);
+}
+
+function renderList() {
+  const L = $("list");
+  const issues = {};
+  for (const i of S.issues || []) (issues[i.id] ||= []).push(i);
+  L.innerHTML = "";
+  doc.captions.forEach((c, idx) => {
+    const row = document.createElement("div");
+    row.className = "row" + (sel === c.id ? " sel" : "");
+    row.dataset.id = c.id;
+    row.innerHTML = `<span class="id">${c.id}<br>${c.source || ""}</span>
+      <input type="number" step="0.01" value="${c.start}" title="start (s)">
+      <input type="number" step="0.01" value="${c.end}" title="end (s)">
+      <input type="text" value="${c.text.replace(/"/g, "&quot;")}">
+      <span class="acts"><button title="play">▶</button><button title="split at the word under the playhead">✂</button><button title="merge with next">⇣</button><button title="delete">✕</button></span>`;
+    const [st, en, tx] = row.querySelectorAll("input");
+    const [bp, bs, bm, bd] = row.querySelectorAll("button");
+    row.onclick = (e) => { if (e.target.tagName !== "INPUT") select(c.id); };
+    st.onchange = () => { snapshot(); retime(c, Number(st.value), c.end); mark(); };
+    en.onchange = () => { snapshot(); retime(c, c.start, Number(en.value)); mark(); };
+    tx.onfocus = () => select(c.id, false);
+    tx.onchange = () => { snapshot(); setText(c, tx.value); mark(); };
+    bp.onclick = () => { media.currentTime = c.start; media.play(); };
+    bs.onclick = () => { snapshot(); split(c); mark(); };
+    bm.onclick = () => { snapshot(); merge(idx); mark(); };
+    bd.onclick = () => { snapshot(); doc.captions.splice(idx, 1); if (sel === c.id) sel = null; mark(); };
+    L.appendChild(row);
+    for (const i of issues[c.id] || []) { const d = document.createElement("div"); d.className = "issue " + i.level; d.textContent = i.msg; row.appendChild(d); }
+  });
+}
+function retime(c, s, e) {
+  if (!(e > s)) { alert("End must be after start"); return; }
+  const k = (e - s) / ((c.end - c.start) || 1);
+  c.words = (c.words || []).map((w) => ({ ...w, start: r3(s + (w.start - c.start) * k), end: r3(s + (w.end - c.start) * k) }));
+  c.start = r3(s); c.end = r3(e); touch(c); doc.captions.sort((a, b) => a.start - b.start);
+}
+function spread(text, s, e) {
+  const toks = text.trim().split(/\s+/).filter(Boolean), tot = toks.reduce((a, t) => a + Math.max(2, t.length), 0) || 1;
+  let t = s; return toks.map((x) => { const d = (e - s) * Math.max(2, x.length) / tot; const w = { text: x, start: r3(t), end: r3(t + d) }; t += d; return w; });
+}
+function setText(c, text) {
+  const nt = text.trim().split(/\s+/);
+  if ((c.words || []).length === nt.length) c.words = c.words.map((w, i) => ({ ...w, text: nt[i] }));
+  else c.words = spread(text, c.start, c.end);
+  c.text = text.trim(); touch(c);
+}
+function touch(c) { if (c.source === "auto") c.source = "edited"; }
+function nextId() { return "c" + String(doc.captions.reduce((m, c) => Math.max(m, Number(String(c.id).replace(/\D/g, "")) || 0), 0) + 1).padStart(4, "0"); }
+function split(c) {
+  const t = media.currentTime;
+  let k = (c.words || []).findIndex((w) => w.start >= t);
+  if (k <= 0) k = Math.floor((c.words || []).length / 2);
+  if (k <= 0) return alert("Need at least two words to split");
+  const a = c.words.slice(0, k), b = c.words.slice(k);
+  const nc = { id: nextId(), start: b[0].start, end: c.end, text: b.map((w) => w.text).join(" "), words: b, source: "edited" };
+  c.words = a; c.text = a.map((w) => w.text).join(" "); c.end = r3(b[0].start - 0.02); touch(c);
+  doc.captions.push(nc); doc.captions.sort((x, y) => x.start - y.start);
+}
+function merge(idx) {
+  const a = doc.captions[idx], b = doc.captions[idx + 1]; if (!b) return;
+  a.words = [...(a.words || []), ...(b.words || [])]; a.text = a.text + " " + b.text; a.end = Math.max(a.end, b.end); touch(a);
+  doc.captions.splice(idx + 1, 1);
+}
+function select(id, seek = true) {
+  sel = id;
+  const c = doc.captions.find((x) => x.id === id);
+  if (c && seek) media.currentTime = c.start;
+  // only move the highlight: re-rendering the list would replace the box the user is typing in
+  document.querySelectorAll(".row").forEach((r) => r.classList.toggle("sel", r.dataset.id === id));
+  document.querySelectorAll(".blk").forEach((b) => b.classList.toggle("sel", b.dataset.id === id));
+  const row = document.querySelector(`.row[data-id="${id}"]`);
+  if (row && seek) row.scrollIntoView({ block: "nearest" });
+}
+
+function renderStrip() {
+  const inner = $("stripInner");
+  inner.style.width = Math.max(600, S.duration * PX) + "px";
+  inner.querySelectorAll(".blk").forEach((b) => b.remove());
+  for (const c of doc.captions) {
+    const b = document.createElement("div");
+    b.className = "blk" + (sel === c.id ? " sel" : "") + (c.source === "manual" ? " manual" : "");
+    b.dataset.id = c.id;
+    b.style.left = c.start * PX + "px"; b.style.width = Math.max(4, (c.end - c.start) * PX) + "px";
+    b.textContent = c.text; b.title = `${c.id} ${fmt(c.start)}–${fmt(c.end)}`;
+    b.onclick = () => select(c.id);
+    inner.appendChild(b);
+  }
+  $("strip").onclick = (e) => { if (e.target.id === "stripInner" || e.target.id === "strip") media.currentTime = (e.offsetX + $("strip").scrollLeft * 0) / PX; };
+}
+function renderPreview() {
+  const t = media.currentTime || 0;
+  const c = doc.captions.find((x) => t >= x.start && t < x.end);
+  const cv = $("canvas");
+  if (!c) { cv.innerHTML = ""; return; }
+  const words = (c.words && c.words.length ? c.words : [{ text: c.text, start: c.start, end: c.end }]);
+  cv.innerHTML = `<div class="cap-group"><span class="cap-line">${words.map((w) => `<span class="cap-w${t >= w.start && t < Math.max(w.end, w.start + 0.05) ? " on" : ""}">${w.text.replace(/</g, "&lt;")}</span>`).join(" ")}</span></div>`;
+}
+function renderWords() {
+  const t = media.currentTime || 0;
+  const ws = S.words.filter((w) => w.s > t - 6 && w.s < t + 8);
+  $("words").innerHTML = ws.map((w) => `<span class="${w.p !== null && w.p < 0.5 ? "lowconf" : ""}" title="${w.s.toFixed(2)}s · p=${w.p ?? "n/a"}">${w.t}</span>`).join(" ");
+}
+function renderAll() { scaleCanvas(); renderList(); renderStrip(); renderPreview(); renderWords(); }
+
+function tick() {
+  const t = media.currentTime || 0;
+  $("time").textContent = fmt(t);
+  $("head").style.left = t * PX + "px";
+  if ($("loop").checked && sel) { const c = doc.captions.find((x) => x.id === sel); if (c && t >= c.end) media.currentTime = c.start; }
+  renderPreview();
+  requestAnimationFrame(tick);
+}
+setInterval(renderWords, 500);
+
+$("play").onclick = () => (media.paused ? media.play() : media.pause());
+media.onplay = () => ($("play").textContent = "❚❚ Pause"); media.onpause = () => ($("play").textContent = "▶ Play");
+$("back").onclick = () => (media.currentTime = Math.max(0, media.currentTime - 2));
+$("fwd").onclick = () => (media.currentTime = media.currentTime + 2);
+$("add").onclick = () => {
+  const t = r3(media.currentTime || 0), text = prompt("Caption text", ""); if (!text) return;
+  snapshot();
+  // a caption already on screen at the playhead ends just before the new one
+  const cur = doc.captions.find((c) => t > c.start && t < c.end);
+  if (cur) retime(cur, cur.start, r3(Math.max(cur.start + 0.1, t - 0.02)));
+  const next = doc.captions.find((c) => c.start > t);
+  const end = r3(Math.min(t + 2, next ? next.start - 0.02 : t + 2));
+  const c = { id: nextId(), start: t, end: end > t ? end : t + 1, text, words: spread(text, t, end > t ? end : t + 1), source: "manual" };
+  doc.captions.push(c); doc.captions.sort((a, b) => a.start - b.start); sel = c.id; mark();
+};
+$("doRepl").onclick = () => {
+  const f = $("find").value.trim(), r = $("repl").value; if (!f) return;
+  snapshot();
+  const re = new RegExp("(?<![\\p{L}\\p{N}])" + f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?![\\p{L}\\p{N}])", "giu");
+  let n = 0; for (const c of doc.captions) if (re.test(c.text)) { re.lastIndex = 0; setText(c, c.text.replace(re, r)); n++; }
+  $("status").textContent = `replaced in ${n} caption(s)`; mark();
+};
+$("undo").onclick = () => { if (!history.length) return; doc = JSON.parse(history.pop()); refreshCss(); buildStyleForm(); mark(); };
+$("save").onclick = save;
+async function save() {
+  const r = await fetch("/api/captions", { method: "PUT", body: JSON.stringify(doc) });
+  const j = await r.json();
+  if (!r.ok) { $("status").textContent = "error: " + j.error; return; }
+  S.issues = j.issues; dirty = false;
+  $("status").textContent = `saved · ${doc.captions.length} captions · ${j.issues.length} issue(s)`; renderAll();
+}
+addEventListener("keydown", (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "s") { e.preventDefault(); save(); return; }
+  if ((e.metaKey || e.ctrlKey) && e.key === "z") { e.preventDefault(); $("undo").click(); return; }
+  if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+  const i = doc.captions.findIndex((c) => c.id === sel), c = doc.captions[i];
+  if (e.key === " ") { e.preventDefault(); $("play").click(); }
+  else if (e.key === "a") $("add").click();
+  else if (e.key === "[" && c) { snapshot(); retime(c, r3(media.currentTime), c.end); mark(); }
+  else if (e.key === "]" && c) { snapshot(); retime(c, c.start, r3(media.currentTime)); mark(); }
+  else if ((e.key === "Delete" || e.key === "Backspace") && c) { snapshot(); doc.captions.splice(i, 1); sel = null; mark(); }
+  else if (e.key === "ArrowDown" && doc.captions[i + 1]) { e.preventDefault(); select(doc.captions[i + 1].id); }
+  else if (e.key === "ArrowUp" && i > 0) { e.preventDefault(); select(doc.captions[i - 1].id); }
+});
+addEventListener("beforeunload", (e) => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+load().then(() => requestAnimationFrame(tick));
+</script>
+</body>
+</html>
