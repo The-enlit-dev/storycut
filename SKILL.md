@@ -1,6 +1,6 @@
 ---
 name: storycut
-description: Script-driven video editing for creators. Turns a written script plus the creator's own recording into a finished, styled video using HyperFrames. It transcribes what was actually said (ad-libs included), asks about unclear audio instead of guessing, builds editable captions, structures the video into titled segments, adds reusable branded intro/outro synced to the creator's own songs, picks licence-verified CC0/public-domain background music by mood and ducks it under speech, inserts a fact-checked sponsor segment, renders, and runs final QC. Six switchable editing styles (neo-brutalism, Memphis pop, tech documentary, minimal editorial, fast social, cinematic). Use for "edit my video", "edit this recording", "add captions", "fix the captions", "add background music", "make the intro/outro", "change the editing style", "render the episode", "QC the video".
+description: Script-driven video editing for creators. Turns a written script plus the creator's own recording into a finished, styled video using HyperFrames. It transcribes what was actually said (ad-libs included), asks about unclear audio instead of guessing, builds editable captions, structures the video into titled segments, adds reusable branded intro/outro synced to the creator's own songs, picks licence-verified CC0/public-domain background music by mood and ducks it under speech, inserts a fact-checked sponsor segment, renders, and runs final QC. Seven switchable editing styles (neo-memphis, neo-brutalism, Memphis pop, tech documentary, minimal editorial, fast social, cinematic). Use for "edit my video", "edit this recording", "add captions", "fix the captions", "add background music", "make the intro/outro", "change the editing style", "render the episode", "QC the video".
 ---
 
 # storycut
@@ -20,6 +20,9 @@ An editing engine you drive from the command line. Everything it does is a file 
 ```
 SC new <ep> --script script.md --recording take.wav --episode-label "Episode 003"
 SC transcribe <ep>            # word timings + confidence (whisper.cpp with DTW alignment)
+SC reconcile <ep>             # first pass: segments on the raw take
+SC clean <ep>                 # voiceover cleanup on a working copy → edit-log.md (see references/cleanup.md)
+SC transcribe <ep> --model medium.en   # re-transcribe the cleaned voiceover for accurate captions
 SC reconcile <ep>             # recording vs script → work/reconcile.md, script.as-recorded.md, segments.json, captions.json
   ↳ open questions?  ASK THE CREATOR. Show the timestamp and send the clip in work/questions/U#.wav.
     SC resolve <ep> U1 "what they said"   |  --keep (it was right)  |  --skip (a missing line really wasn't said)
@@ -51,4 +54,6 @@ SC qc <ep>                    # qc/report.md — fix every ❌ before calling it
 | Music selection, licence evidence, ducking | `references/music.md` |
 | Sponsor template and fact check | `references/sponsor.md` |
 | QC checks and what to do about each | `references/qc.md` |
+| Voiceover cleanup, edit log, approvals | `references/cleanup.md` |
+| Reusable intro/outro videos | `references/music.md` → Brand videos |
 | What is implemented vs planned | `README.md` → Status |

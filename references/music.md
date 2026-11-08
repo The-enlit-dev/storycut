@@ -45,3 +45,10 @@ Your own tracks: `SC music add-local track.mp3 --license own-work --evidence <ur
 ## Narration level
 
 The build writes a loudness-normalised copy of the narration (two-pass EBU R128, target `narration.targetLufs`, true peak ≤ -1.5 dBTP) and mixes that. Your recording is never modified. With camera footage, the video is muted and the normalised audio plays alongside it.
+
+## Brand videos (reusable intro and outro)
+
+`SC brand render` renders the intro and outro once, with their song excerpts, to `assets/brand/intro.mp4` and `assets/brand/outro.mp4`, and records them in `assets/brand/brand.json`. Point `intro.video` and `outro.video` at those files and every build uses them instead of regenerating. Re-run `brand render` after changing the songs, `start`, `maxSeconds`, `hit`, `prompt`, `topics`, `lines` or the style.
+
+- `intro.hit` / `outro.hit`: the song time (in seconds) of the beat the logo lock-up should land on. Leave it unset to use the last strong onset.
+- `intro.prompt`: the question typed into the opening browser window.
