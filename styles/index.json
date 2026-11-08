@@ -1,6 +1,11 @@
 {
   "styles": [
     {
+      "id": "neo-memphis",
+      "name": "Neo-Memphis",
+      "summary": "Readable neo-brutalism (paper text blocks, ink borders, hard shadows) with restrained Memphis accents: margin shapes, keycap wordmark, browser-window title cards."
+    },
+    {
       "id": "neo-brutalism",
       "name": "Neo-brutalism",
       "summary": "Paper ground, thick ink borders, hard offset shadows, flat loud colour blocks, slam-in type."

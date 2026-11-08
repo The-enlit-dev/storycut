@@ -13,6 +13,7 @@ import { checkSponsor, insertSponsor } from "../lib/sponsor.mjs";
 import { runQc } from "../lib/qc.mjs";
 import { serveEditor } from "../lib/editor.mjs";
 import { SEGMENT_TYPES } from "../lib/segments.mjs";
+import { renderBrand } from "../lib/brandkit.mjs";
 
 const HELP = `storycut — turn a script + your recording into a styled, captioned, scored video (HyperFrames)
 
@@ -59,6 +60,9 @@ Music
 Sponsor
   sponsor check                                 verify sponsor facts/script against the sponsor's website
   sponsor insert <script.md> [--out f]          add the sponsor section at the configured placement
+
+Brand
+  brand render [--only intro|outro]             render the reusable intro/outro (with music) to assets/brand/*.mp4
 
 Output
   build <project> [--allow-uncertain]           write the HyperFrames project (build/)
@@ -135,6 +139,12 @@ async function main() {
       const r = runQc(dir, { render: a.render && path.resolve(a.render) });
       console.log(r.md);
       if (r.fails) process.exitCode = 1;
+      return;
+    }
+    case "brand": {
+      if (a._[0] !== "render") fail("storycut brand render [--only intro|outro] [--quality draft]");
+      for (const r of renderBrand(process.cwd(), { only: a.only, quality: a.quality })) console.log(`${r.id}: ${r.out} (${r.duration.toFixed(2)}s, ${r.bpm ?? "?"} BPM)`);
+      console.log("set intro.video / outro.video in storycut.config.json to use these in every episode");
       return;
     }
     case "status":

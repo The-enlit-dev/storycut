@@ -1,0 +1,119 @@
+{
+  "id": "neo-memphis",
+  "name": "Neo-Memphis (readable neo-brutalism with Memphis accents)",
+  "fonts": {
+    "display": "Archivo Black",
+    "body": "Outfit",
+    "mono": "Space Mono",
+    "displayWeight": 400
+  },
+  "colors": {
+    "bg": "#F4F1EA",
+    "ink": "#121212",
+    "paper": "#FFFFFF",
+    "muted": "#55524C",
+    "accent": "#FFD23F",
+    "accent2": "#FF5C9D",
+    "accent3": "#1FC2AE",
+    "accent4": "#7C5CFF",
+    "accent5": "#2F6BFF",
+    "caveat": "#FF6A3D"
+  },
+  "shape": {
+    "radius": 12,
+    "border": 5,
+    "shadowX": 9,
+    "shadowY": 9,
+    "shadowBlur": 0,
+    "shadow": "ink"
+  },
+  "background": {
+    "kind": "grid",
+    "size": 72,
+    "opacity": 0.09
+  },
+  "texture": {
+    "kind": "none"
+  },
+  "decor": {
+    "kind": "memphis",
+    "density": 3,
+    "size": 96,
+    "stroke": 4,
+    "kinds": [
+      "triangle",
+      "ring",
+      "squiggle",
+      "zigzag",
+      "sparkle",
+      "dot",
+      "half",
+      "sparkle"
+    ]
+  },
+  "stage": {
+    "block": true
+  },
+  "letterbox": 0,
+  "motion": {
+    "enter": "pop",
+    "ease": "back.out(2)",
+    "duration": 0.3,
+    "stagger": 0.05,
+    "exit": "drop"
+  },
+  "transition": {
+    "kind": "block-wipe",
+    "duration": 0.5,
+    "bands": 4
+  },
+  "titleCard": {
+    "layout": "window",
+    "numbered": true,
+    "kickerCase": "upper",
+    "titleCase": "none",
+    "tilt": -1.5
+  },
+  "lowerThird": {
+    "layout": "tag",
+    "kickerCase": "upper"
+  },
+  "captions": {
+    "font": "body",
+    "size": 58,
+    "weight": 800,
+    "case": "none",
+    "color": "ink",
+    "activeColor": "ink",
+    "activeBg": "accent",
+    "box": "paper",
+    "boxBorder": true,
+    "shadow": "hard",
+    "position": "bottom",
+    "offset": 80,
+    "animation": "pop",
+    "wordsPerGroup": 4
+  },
+  "emoji": {
+    "size": 140,
+    "animation": "stamp"
+  },
+  "sponsorFrame": {
+    "kind": "tape",
+    "color": "accent2"
+  },
+  "segmentColors": {
+    "hook": "accent2",
+    "intro": "accent",
+    "main-tech": "accent5",
+    "ai": "accent3",
+    "business": "accent",
+    "events": "accent4",
+    "upcoming-events": "accent3",
+    "fun-facts": "accent",
+    "discoveries": "accent4",
+    "quick-updates": "accent2",
+    "sponsor": "accent2",
+    "outro": "accent"
+  }
+}
