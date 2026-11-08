@@ -14,6 +14,7 @@ import { runQc } from "../lib/qc.mjs";
 import { serveEditor } from "../lib/editor.mjs";
 import { SEGMENT_TYPES } from "../lib/segments.mjs";
 import { renderBrand } from "../lib/brandkit.mjs";
+import { runClean, setDecision, previewEdit } from "../lib/clean.mjs";
 
 const HELP = `storycut — turn a script + your recording into a styled, captioned, scored video (HyperFrames)
 
@@ -32,6 +33,11 @@ Episode
                        | --keep                  the transcript (or second listen) heard it right
                        | --skip                  (missing/unheard) I didn't say it / it wasn't speech
   prepare <project>                              transcribe + reconcile + music analyze/auto in one go
+
+Voiceover cleanup (original never modified; working copy in recording/cleaned/)
+  clean <project>                               remove long silences, false starts, repeated takes; denoise/EQ/compress
+                                                 only as measured; flags uncertain edits → edit-log.md
+  clean <project> list | preview <E#> | approve <E#> | reject <E#> | restore <E#>
 
 Captions (captions.json is independent of the script)
   captions <project> list [--from t] [--to t]
@@ -145,6 +151,30 @@ async function main() {
       if (a._[0] !== "render") fail("storycut brand render [--only intro|outro] [--quality draft]");
       for (const r of renderBrand(process.cwd(), { only: a.only, quality: a.quality })) console.log(`${r.id}: ${r.out} (${r.duration.toFixed(2)}s, ${r.bpm ?? "?"} BPM)`);
       console.log("set intro.video / outro.video in storycut.config.json to use these in every episode");
+      return;
+    }
+    case "clean": {
+      const sub = a._[1] || "run";
+      const show = (r) => {
+        const s = r.summary;
+        console.log(`cleaned VO: ${s.cleaned.file} · ${fmtTime(s.original.duration)} → ${fmtTime(s.cleaned.duration)} (-${s.removedSeconds}s) · ${s.pausesShortened} pauses shortened · ${s.retakesRemoved} retakes + ${s.falseStartsRemoved} false starts removed · ${s.flagged} flagged · ${s.keptRepeats} intentional repeats kept`);
+        for (const n of s.chain) console.log(`  · ${n}`);
+        for (const e of r.edits.filter((x) => x.status === "flagged")) console.log(`  ⚑ ${e.id} ${fmtTime(e.start)} (≈${fmtTime(e.cleanAt)} in cleaned VO) ${e.type}: "${e.text.slice(0, 70)}" — ${e.reason}`);
+        console.log(`edit log: ${path.join(dir, "edit-log.md")}`);
+      };
+      if (sub === "run") return show(runClean(dir));
+      if (["approve", "reject", "restore"].includes(sub)) return show(setDecision(dir, a._[2], sub));
+      if (sub === "preview") {
+        const r = previewEdit(dir, a._[2]);
+        console.log(`before: ${r.before}\nafter:  ${r.after}`);
+        return;
+      }
+      if (sub === "list") {
+        const d = readJSON(path.join(dir, "work", "clean", "edits.json"));
+        for (const e of d.edits) console.log(`${e.id} ${e.status.padEnd(8)} ${e.type.padEnd(12)} ${fmtTime(e.start)}–${fmtTime(e.end)}  ${e.text.slice(0, 70)}`);
+        return;
+      }
+      fail("clean <ep> [run|list|preview <id>|approve <id>|reject <id>|restore <id>]");
       return;
     }
     case "status":
