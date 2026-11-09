@@ -22,6 +22,7 @@ SC new <ep> --script script.md --recording take.wav --episode-label "Episode 003
 SC transcribe <ep>            # word timings + confidence (whisper.cpp with DTW alignment)
 SC reconcile <ep>             # first pass: segments on the raw take
 SC clean <ep>                 # voiceover cleanup on a working copy → edit-log.md (see references/cleanup.md)
+SC clean <ep> noises          # optional, slow: find + cut coughs/sneezes; `clean <ep> cut <from> <to>` for your own cuts
 SC transcribe <ep> --model medium.en   # re-transcribe the cleaned voiceover for accurate captions
 SC reconcile <ep>             # recording vs script → work/reconcile.md, script.as-recorded.md, segments.json, captions.json
   ↳ open questions?  ASK THE CREATOR. Show the timestamp and send the clip in work/questions/U#.wav.

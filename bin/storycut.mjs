@@ -14,7 +14,7 @@ import { runQc } from "../lib/qc.mjs";
 import { serveEditor } from "../lib/editor.mjs";
 import { SEGMENT_TYPES } from "../lib/segments.mjs";
 import { renderBrand } from "../lib/brandkit.mjs";
-import { runClean, setDecision, previewEdit } from "../lib/clean.mjs";
+import { runClean, setDecision, previewEdit, addManualCut, removeManualCut, listManualCuts, detectNoises } from "../lib/clean.mjs";
 
 const HELP = `storycut — turn a script + your recording into a styled, captioned, scored video (HyperFrames)
 
@@ -160,6 +160,7 @@ async function main() {
         console.log(`cleaned VO: ${s.cleaned.file} · ${fmtTime(s.original.duration)} → ${fmtTime(s.cleaned.duration)} (-${s.removedSeconds}s) · ${s.pausesShortened} pauses shortened · ${s.retakesRemoved} retakes + ${s.falseStartsRemoved} false starts removed · ${s.flagged} flagged · ${s.keptRepeats} intentional repeats kept`);
         for (const n of s.chain) console.log(`  · ${n}`);
         for (const e of r.edits.filter((x) => x.status === "flagged")) console.log(`  ⚑ ${e.id} ${fmtTime(e.start)} (≈${fmtTime(e.cleanAt)} in cleaned VO) ${e.type}: "${e.text.slice(0, 70)}" — ${e.reason}`);
+        if (r.carried) console.log(`  kept your re-transcribed words and caption edits: ${r.carried.words} words / ${r.carried.captions} captions moved to the new timeline (${r.carried.wordsDropped} words, ${r.carried.captionsDropped} captions were inside cuts) — run reconcile next`);
         console.log(`edit log: ${path.join(dir, "edit-log.md")}`);
       };
       if (sub === "run") return show(runClean(dir));
@@ -169,12 +170,35 @@ async function main() {
         console.log(`before: ${r.before}\nafter:  ${r.after}`);
         return;
       }
+      if (sub === "cut") {
+        // times are in the ORIGINAL recording (edit-log "original time"); accepts 1:23.4 or seconds
+        const [from, to] = [a._[2], a._[3]].map((v) => (v == null ? NaN : parseTime(v)));
+        if (!(from >= 0) || !(to > from)) fail('clean <ep> cut <from> <to> [--reason "…"]   (original-recording time, e.g. 35:07.7 35:29.8)');
+        return show(addManualCut(dir, from, to, a.reason));
+      }
+      if (sub === "uncut") return show(removeManualCut(dir, Number(a._[2])));
+      if (sub === "cuts") {
+        listManualCuts(dir).forEach((c, i) => console.log(`#${i + 1} ${fmtTime(c.start)}–${fmtTime(c.end)} (${(c.end - c.start).toFixed(1)}s) ${c.reason}`));
+        return;
+      }
+      if (sub === "noises") {
+        let last = -1;
+        const r = detectNoises(dir, {
+          model: a.model || "medium.en",
+          onProgress: (f) => {
+            const pct = Math.floor(f * 10) * 10;
+            if (pct !== last) process.stderr.write(`listening for coughs/sneezes… ${(last = pct)}%\n`);
+          },
+        });
+        for (const n of r.noises) console.log(`  ${fmtTime(n.t)} ${n.kind.padEnd(7)} ${n.label}`);
+        return show(r);
+      }
       if (sub === "list") {
         const d = readJSON(path.join(dir, "work", "clean", "edits.json"));
         for (const e of d.edits) console.log(`${e.id} ${e.status.padEnd(8)} ${e.type.padEnd(12)} ${fmtTime(e.start)}–${fmtTime(e.end)}  ${e.text.slice(0, 70)}`);
         return;
       }
-      fail("clean <ep> [run|list|preview <id>|approve <id>|reject <id>|restore <id>]");
+      fail("clean <ep> [run|list|preview <id>|approve <id>|reject <id>|restore <id>|cut <from> <to>|uncut <n>|cuts|noises]");
       return;
     }
     case "status":
