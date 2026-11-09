@@ -56,5 +56,6 @@ SC qc <ep>                    # qc/report.md — fix every ❌ before calling it
 | Sponsor template and fact check | `references/sponsor.md` |
 | QC checks and what to do about each | `references/qc.md` |
 | Voiceover cleanup, edit log, approvals | `references/cleanup.md` |
+| Vertical shorts from the episode (`SC shorts`) | `references/shorts.md` |
 | Reusable intro/outro videos | `references/music.md` → Brand videos |
 | What is implemented vs planned | `README.md` → Status |

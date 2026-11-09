@@ -14,6 +14,7 @@ import { runQc } from "../lib/qc.mjs";
 import { serveEditor } from "../lib/editor.mjs";
 import { SEGMENT_TYPES } from "../lib/segments.mjs";
 import { renderBrand } from "../lib/brandkit.mjs";
+import { loadShorts, buildShort, renderShort, toOriginalTime } from "../lib/shorts.mjs";
 import { runClean, setDecision, previewEdit, addManualCut, removeManualCut, listManualCuts, detectNoises } from "../lib/clean.mjs";
 
 const HELP = `storycut — turn a script + your recording into a styled, captioned, scored video (HyperFrames)
@@ -199,6 +200,26 @@ async function main() {
         return;
       }
       fail("clean <ep> [run|list|preview <id>|approve <id>|reject <id>|restore <id>|cut <from> <to>|uncut <n>|cuts|noises]");
+      return;
+    }
+    case "shorts": {
+      // shorts <ep> [build|render|times] [id…]
+      const sub = a._[1] || "build";
+      if (sub === "times") {
+        // convert working-copy (video) times into the original-recording times shorts.json uses
+        const ts = a._.slice(2).map((v) => parseTime(v));
+        console.log(ts.map((t) => toOriginalTime(dir, t)).join(" "));
+        return;
+      }
+      const spec = loadShorts(dir);
+      const ids = a._.slice(2);
+      const list = spec.shorts.filter((s) => !ids.length || ids.includes(s.id));
+      if (!list.length) fail(`no shorts matching ${ids.join(", ")}`);
+      for (const s of list) {
+        const info = await buildShort(dir, s, spec);
+        console.log(`${s.id}: built ${info.duration.toFixed(1)}s (${info.speech.toFixed(1)}s speech, ${info.panels} panels, ${info.captions} captions${info.bed ? `, bed "${info.bed.title}"` : ""}) → ${path.relative(process.cwd(), info.dir)}`);
+        if (sub === "render") console.log(`${s.id}: rendered ${renderShort(dir, s.id, { quality: a.quality })}`);
+      }
       return;
     }
     case "status":
